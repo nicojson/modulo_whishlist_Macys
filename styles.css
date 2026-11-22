@@ -1,0 +1,44 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color: #172554;
+  background: #eff6ff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.card {
+  width: min(100%, 560px);
+  padding: clamp(24px, 6vw, 48px);
+  text-align: center;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px #17255415;
+}
+
+.eyebrow { color: #475569; font-size: 0.9rem; }
+h1 { font-size: clamp(2rem, 8vw, 3.5rem); margin: 16px 0; }
+p { line-height: 1.6; }
+
+button {
+  margin-top: 16px;
+  padding: 12px 28px;
+  border: 0;
+  border-radius: 12px;
+  background: #1d4ed8;
+  color: white;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover { background: #1e40af; }
+button:focus-visible { outline: 3px solid #60a5fa; outline-offset: 4px; }
+.mensaje { min-height: 1.6em; margin-bottom: 0; color: #1d4ed8; }
