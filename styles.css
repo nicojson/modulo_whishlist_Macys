@@ -64,7 +64,9 @@ form {
   border: 1.5px solid #374151;
   border-radius: 10px;
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
 .campo-grupo input:focus {
@@ -134,7 +136,9 @@ form {
   border: 1.5px solid #1f2937;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.1s, filter 0.15s;
+  transition:
+    transform 0.1s,
+    filter 0.15s;
 }
 
 .btn:hover {
@@ -172,4 +176,75 @@ form {
 
 .oculto {
   display: none;
+}
+
+/* ESTILOS DE LA PANTALLA DE CONFIRMACIÓN (S/N) */
+.contenido-confirmacion {
+  padding: 24px;
+}
+
+.subtitulo-revision {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.caja-resumen {
+  border: 1.5px solid #374151;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+.caja-resumen input[readonly] {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.pregunta-confirmacion {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.acciones-confirmacion {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.columna-boton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-grande {
+  min-width: 145px;
+  font-size: 1rem;
+}
+
+.texto-ayuda {
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.alerta-exito {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 10px;
+  background-color: #ecfdf5;
+  border: 1.5px solid #10b981;
+  color: #065f46;
+  text-align: center;
+}
+
+.alerta-exito p {
+  margin-bottom: 10px;
+  font-weight: 600;
 }
