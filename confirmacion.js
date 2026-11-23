@@ -59,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btnVolverInicio.addEventListener("click", () => {
     document.getElementById("form-crear-grupo").reset();
     window.appIntercambio.nombreGrupo = "";
+    window.reiniciarParticipantes();
     vistaConfirmacion.classList.add("oculto");
     vistaCrearGrupo.classList.remove("oculto");
   });

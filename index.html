@@ -29,7 +29,7 @@
             </p>
           </div>
 
-          <!-- ESPACIO RESERVADO PARA PARTICIPANTES (BR, AE) -->
+          <!-- REGISTRO Y LISTADO DE PARTICIPANTES -->
           <div class="seccion-participantes">
             <div class="participantes-header">
               <span class="etiqueta-seccion">Participantes del grupo</span>
@@ -37,21 +37,29 @@
                 type="button"
                 id="btn-agregar-participantes"
                 class="btn btn-verde"
+                aria-expanded="false"
+                aria-controls="registro-participante"
               >
                 Agregar participantes
               </button>
             </div>
 
-            <div class="caja-listado">
-              <ul id="lista-participantes">
-                <li>Participante 1</li>
-                <li>Participante 2</li>
-                <li>Participante 3</li>
-              </ul>
-              <small class="nota-reservada"
-                >(Espacio reservado para el listado)</small
-              >
+            <div id="registro-participante" class="campo-grupo registro-participante oculto">
+              <label for="nombre-participante">Nombre del participante</label>
+              <div class="entrada-participante">
+                <input type="text" id="nombre-participante" placeholder="Ej. Ana López"
+                  autocomplete="off" aria-describedby="error-participante" />
+                <button type="button" id="btn-registrar-participante" class="btn btn-verde">Agregar</button>
+              </div>
+              <p id="error-participante" class="texto-obligatorio" role="alert"></p>
             </div>
+
+            <div class="caja-listado listado-participantes">
+              <p id="lista-vacia" class="nota-reservada">Aún no hay participantes registrados.</p>
+              <ul id="lista-participantes"></ul>
+              <small id="contador-participantes" class="nota-reservada" role="status"></small>
+            </div>
+            <p id="error-minimo-participantes" class="texto-obligatorio" role="alert"></p>
           </div>
 
           <!-- BOTONES PRINCIPALES DE ACCIÓN -->
@@ -126,7 +134,7 @@
     </main>
 
     <script src="grupo.js"></script>
-    <!-- <script src="participantes.js"></script> -->
+    <script src="participantes.js"></script>
     <script src="confirmacion.js"></script>
   </body>
 </html>

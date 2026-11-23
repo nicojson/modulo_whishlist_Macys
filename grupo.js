@@ -1,7 +1,7 @@
 // Estado compartido entre los módulos de USA (Grupo, Participantes y Confirmación S/N)
 window.appIntercambio = window.appIntercambio || {
   nombreGrupo: "",
-  participantes: ["Participante 1", "Participante 2", "Participante 3"],
+  participantes: [],
 };
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -57,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mensajeObligatorio.textContent = "* Campo obligatorio";
     bannerEnvio.classList.add("oculto");
     window.appIntercambio.nombreGrupo = "";
+    window.reiniciarParticipantes();
   });
 
   // Botón "Guardar": valida, captura y envía datos a Confirmación (S/N)
@@ -64,6 +65,10 @@ document.addEventListener("DOMContentLoaded", () => {
     evento.preventDefault();
 
     if (!validarNombreGrupo()) {
+      return;
+    }
+
+    if (!window.validarParticipantes()) {
       return;
     }
 

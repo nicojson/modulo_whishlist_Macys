@@ -123,6 +123,19 @@ form {
   font-size: 0.85rem;
 }
 
+.registro-participante { margin-top: 18px; }
+
+.entrada-participante {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.entrada-participante input { flex: 1 1 180px; min-width: 0; }
+.listado-participantes { max-width: 100%; }
+.caja-listado li { overflow-wrap: anywhere; }
+.btn:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+
 .acciones-footer {
   display: flex;
   justify-content: flex-end;
