@@ -69,11 +69,64 @@
         <div id="banner-envio" class="banner-info oculto"></div>
       </section>
 
-      <!-- AQUÍ SE INTEGRARÁ LA VISTA DE PARTICIPANTES (BR, AE) Y CONFIRMACIÓN S/N (AF, CL) -->
+      <!-- TARJETA 2: CONFIRMACIÓN O CANCELACIÓN DEL REGISTRO (AF, CL) -->
+      <section id="vista-confirmacion" class="ventana-card oculto">
+        <header class="ventana-header">
+          <h1>Confirmar registro del grupo</h1>
+        </header>
+
+        <div class="contenido-confirmacion">
+          <p class="subtitulo-revision">Revisa los datos antes de guardar:</p>
+
+          <!-- RECUADRO CENTRAL CON EL RESUMEN -->
+          <div class="caja-resumen">
+            <div class="campo-grupo">
+              <label for="confirmar-nombre">Nombre del grupo</label>
+              <input type="text" id="confirmar-nombre" readonly />
+            </div>
+
+            <div>
+              <span class="etiqueta-seccion">Participantes del grupo</span>
+              <div class="caja-listado">
+                <ul id="confirmar-participantes"></ul>
+              </div>
+            </div>
+          </div>
+
+          <p class="pregunta-confirmacion">
+            ¿Deseas guardar este grupo de intercambio?
+          </p>
+
+          <!-- BOTONES NO / SÍ CON SU TEXTO DEBAJO -->
+          <div id="botones-confirmacion" class="acciones-confirmacion">
+            <div class="columna-boton">
+              <button type="button" id="btn-no" class="btn btn-rojo btn-grande">
+                No
+              </button>
+              <span class="texto-ayuda">Regresar a editar</span>
+            </div>
+
+            <div class="columna-boton">
+              <button type="button" id="btn-si" class="btn btn-azul btn-grande">
+                Sí
+              </button>
+              <span class="texto-ayuda">Guardar grupo</span>
+            </div>
+          </div>
+
+          <!-- AVISO AL CONFIRMAR CON "SÍ" -->
+          <div id="mensaje-guardado" class="alerta-exito oculto">
+            <p id="texto-guardado"></p>
+            <button type="button" id="btn-volver-inicio" class="btn btn-verde">
+              Crear otro grupo
+            </button>
+          </div>
+        </div>
+      </section>
     </main>
 
     <script src="grupo.js"></script>
     <!-- <script src="participantes.js"></script> -->
-    <!-- <script src="confirmacion.js"></script> -->
+    <script src="confirmacion.js"></script>
   </body>
 </html>
