@@ -3,17 +3,77 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hola mundo</title>
+    <title>Crear Nuevo Grupo de Intercambio - SPR1_EQ1B</title>
     <link rel="stylesheet" href="styles.css" />
-    <script src="script.js" defer></script>
   </head>
   <body>
-    <main class="card">
-      <p class="eyebrow">Mi primera página web</p>
-      <h1>¡Hola, mundo!</h1>
-      <p>Una página creada con HTML, CSS y JavaScript.</p>
-      <button id="saludar" type="button">Saludar</button>
-      <p id="mensaje" class="mensaje" role="status"></p>
+    <main class="contenedor-principal">
+      <!-- TARJETA 1: CREACIÓN DEL GRUPO (CL, BR) -->
+      <section id="vista-crear-grupo" class="ventana-card">
+        <header class="ventana-header">
+          <h1>Crear Nuevo Grupo de Intercambio</h1>
+        </header>
+
+        <form id="form-crear-grupo" novalidate>
+          <div class="campo-grupo">
+            <label for="nombre-grupo">Nombre del grupo * (obligatorio)</label>
+            <input
+              type="text"
+              id="nombre-grupo"
+              name="nombreGrupo"
+              placeholder="Ej. Intercambio Navideño EQ1B"
+              autocomplete="off"
+            />
+            <p id="mensaje-obligatorio" class="texto-obligatorio">
+              * Campo obligatorio
+            </p>
+          </div>
+
+          <!-- ESPACIO RESERVADO PARA PARTICIPANTES (BR, AE) -->
+          <div class="seccion-participantes">
+            <div class="participantes-header">
+              <span class="etiqueta-seccion">Participantes del grupo</span>
+              <button
+                type="button"
+                id="btn-agregar-participantes"
+                class="btn btn-verde"
+              >
+                Agregar participantes
+              </button>
+            </div>
+
+            <div class="caja-listado">
+              <ul id="lista-participantes">
+                <li>Participante 1</li>
+                <li>Participante 2</li>
+                <li>Participante 3</li>
+              </ul>
+              <small class="nota-reservada"
+                >(Espacio reservado para el listado)</small
+              >
+            </div>
+          </div>
+
+          <!-- BOTONES PRINCIPALES DE ACCIÓN -->
+          <div class="acciones-footer">
+            <button type="button" id="btn-cancelar" class="btn btn-rojo">
+              Cancelar
+            </button>
+            <button type="submit" id="btn-guardar" class="btn btn-azul">
+              Guardar
+            </button>
+          </div>
+        </form>
+
+        <!-- BANNER DE PRUEBA PARA EVIDENCIA DE ENVÍO A CONFIRMACIÓN -->
+        <div id="banner-envio" class="banner-info oculto"></div>
+      </section>
+
+      <!-- AQUÍ SE INTEGRARÁ LA VISTA DE PARTICIPANTES (BR, AE) Y CONFIRMACIÓN S/N (AF, CL) -->
     </main>
+
+    <script src="grupo.js"></script>
+    <!-- <script src="participantes.js"></script> -->
+    <!-- <script src="confirmacion.js"></script> -->
   </body>
 </html>
