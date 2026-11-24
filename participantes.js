@@ -9,6 +9,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const errorNombre = document.getElementById("error-participante");
   const errorMinimo = document.getElementById("error-minimo-participantes");
   const participantes = window.appIntercambio.participantes;
+  const botonRegistrar = document.getElementById("btn-registrar-participante");
+  const botonCancelarEdicion = document.getElementById("btn-cancelar-edicion");
+  let indiceEdicion = null;
+
+  function terminarEdicion() {
+    indiceEdicion = null;
+    input.value = "";
+    botonRegistrar.textContent = "Agregar";
+    botonCancelarEdicion.classList.add("oculto");
+    limpiarErrorNombre();
+  }
 
   function limpiarErrorNombre() {
     input.classList.remove("input-error");
@@ -18,9 +29,49 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function actualizarListado() {
     lista.replaceChildren();
-    participantes.forEach((nombre) => {
+    participantes.forEach((nombre, indice) => {
       const elemento = document.createElement("li");
-      elemento.textContent = nombre;
+      elemento.classList.add("fila-participante");
+      const texto = document.createElement("span");
+      texto.textContent = nombre;
+      const botonEditar = document.createElement("button");
+      botonEditar.type = "button";
+      botonEditar.className = "btn btn-azul";
+      botonEditar.textContent = "Editar";
+      botonEditar.setAttribute("aria-label", `Editar a ${nombre}`);
+      botonEditar.addEventListener("click", () => {
+        indiceEdicion = indice;
+        input.value = participantes[indice];
+        botonRegistrar.textContent = "Guardar cambio";
+        botonCancelarEdicion.classList.remove("oculto");
+        limpiarErrorNombre();
+        window.abrirModalParticipantes();
+        input.select();
+      });
+      const botonEliminar = document.createElement("button");
+      botonEliminar.type = "button";
+      botonEliminar.className = "btn btn-rojo";
+      botonEliminar.textContent = "Eliminar";
+      botonEliminar.setAttribute("aria-label", `Eliminar a ${nombre}`);
+      botonEliminar.addEventListener("click", () => {
+        participantes.splice(indice, 1);
+        if (indiceEdicion === indice) {
+          terminarEdicion();
+        } else if (indiceEdicion !== null && indiceEdicion > indice) {
+          indiceEdicion -= 1;
+        }
+        actualizarListado();
+        const siguiente = lista.children[Math.min(indice, participantes.length - 1)];
+        if (siguiente) {
+          siguiente.querySelector(".btn-rojo").focus();
+        } else {
+          botonAbrir.focus();
+        }
+      });
+      const acciones = document.createElement("div");
+      acciones.className = "acciones-participante";
+      acciones.append(botonEditar, botonEliminar);
+      elemento.append(texto, acciones);
       lista.appendChild(elemento);
     });
     listaVacia.classList.toggle("oculto", participantes.length > 0);
@@ -44,16 +95,21 @@ document.addEventListener("DOMContentLoaded", () => {
       input.setAttribute("aria-invalid", "true");
       errorNombre.textContent = "Ingresa el nombre del participante.";
       input.focus();
-      return;
+      return false;
     }
-    participantes.push(nombre);
-    input.value = "";
-    limpiarErrorNombre();
+    if (indiceEdicion === null) {
+      participantes.push(nombre);
+    } else {
+      participantes[indiceEdicion] = nombre;
+    }
+    terminarEdicion();
     actualizarListado();
     input.focus();
+    return true;
   }
 
   window.validarParticipantes = function () {
+    if (indiceEdicion !== null && !agregarParticipante()) return false;
     if (participantes.length >= MINIMO_PARTICIPANTES) return true;
     errorMinimo.textContent = `Registra al menos ${MINIMO_PARTICIPANTES} participantes antes de continuar.`;
     window.abrirModalParticipantes();
@@ -62,16 +118,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.reiniciarParticipantes = function () {
     participantes.length = 0;
-    input.value = "";
-    limpiarErrorNombre();
+    terminarEdicion();
     errorMinimo.textContent = "";
     registro.classList.add("oculto");
     botonAbrir.setAttribute("aria-expanded", "false");
     actualizarListado();
   };
 
-  document.getElementById("btn-registrar-participante")
-    .addEventListener("click", agregarParticipante);
+  botonRegistrar.addEventListener("click", agregarParticipante);
+  botonCancelarEdicion.addEventListener("click", () => {
+    terminarEdicion();
+    input.focus();
+  });
+  botonAbrir.addEventListener("click", terminarEdicion);
   input.addEventListener("input", limpiarErrorNombre);
   input.addEventListener("keydown", (evento) => {
     if (evento.key === "Enter") {

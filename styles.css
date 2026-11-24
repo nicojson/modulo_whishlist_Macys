@@ -55,6 +55,12 @@ form {
   color: #1f2937;
   margin-bottom: 8px;
 }
+.fila-participante { flex-wrap: wrap; }
+.acciones-participante {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
 .campo-grupo input {
   width: 100%;
@@ -134,6 +140,15 @@ form {
 .entrada-participante input { flex: 1 1 180px; min-width: 0; }
 .listado-participantes { max-width: 100%; }
 .caja-listado li { overflow-wrap: anywhere; }
+.fila-participante {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.fila-participante span { min-width: 0; }
+.fila-participante .btn { flex-shrink: 0; }
 .btn:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
 
 .acciones-footer {
