@@ -14,6 +14,7 @@
           <h1>Crear Nuevo Grupo de Intercambio</h1>
         </header>
 
+        <!-- JavaScript valida el nombre del grupo y el mínimo de participantes. -->
         <form id="form-crear-grupo" novalidate>
           <div class="campo-grupo">
             <label for="nombre-grupo">Nombre del grupo * (obligatorio)</label>
@@ -79,7 +80,7 @@
       </section>
 
       <!-- TARJETA 2: CONFIRMACIÓN O CANCELACIÓN DEL REGISTRO (AF, CL) -->
-      <section id="vista-confirmacion" class="ventana-card oculto">
+      <section id="vista-confirmacion" class="ventana-card oculto">   
         <header class="ventana-header">
           <h1>Confirmar registro del grupo</h1>
         </header>
@@ -132,8 +133,11 @@
           </div>
         </div>
       </section>
+      <!-- PANEL PARA MOSTRAR LO GUARDADO EN LOCALSTORAGE -->
+      <div id="panel-localstorage" class="banner-info oculto" style="margin-top: 16px;"></div>
     </main>
 
+    <!-- grupo.js crea los datos compartidos que usan los otros dos módulos. -->
     <script src="grupo.js"></script>
     <script src="participantes.js"></script>
     <script src="confirmacion.js"></script>

@@ -4,6 +4,7 @@ window.appIntercambio = window.appIntercambio || {
   participantes: [],
 };
 
+// Espera a que exista el formulario antes de conectar sus controles.
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("form-crear-grupo");
   const inputNombre = document.getElementById("nombre-grupo");
@@ -74,6 +75,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nombreCapturado = inputNombre.value.trim();
     window.appIntercambio.nombreGrupo = nombreCapturado;
+    // Conserva una copia previa a la confirmación en este navegador.
+    // JSON.stringify convierte el objeto en texto para almacenarlo.
     localStorage.setItem(
       "datosGrupoIntercambio",
       JSON.stringify(window.appIntercambio),
