@@ -283,3 +283,26 @@ form {
   margin-bottom: 10px;
   font-weight: 600;
 }
+
+.campo-grupo select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1.5px solid #374151;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.ayuda-deseos { margin-bottom: 20px; color: #374151; overflow-wrap: anywhere; }
+.acciones-grupo { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.lista-deseos { padding-left: 32px; margin: 20px 0 24px; }
+.lista-deseos li { padding: 14px 12px; margin-bottom: 12px; background: #f4f6f9; border-radius: 10px; overflow-wrap: anywhere; white-space: pre-wrap; }
+#vista-final .alerta-exito { margin: 0 0 20px; }
+#grupo-final { overflow-wrap: anywhere; }
+
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .acciones-confirmacion { gap: 12px; flex-wrap: wrap; }
+  .btn-grande { min-width: 110px; }
+  .acciones-grupo .btn { width: 100%; }
+}

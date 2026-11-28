@@ -75,14 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nombreCapturado = inputNombre.value.trim();
     window.appIntercambio.nombreGrupo = nombreCapturado;
-    // Conserva una copia previa a la confirmación en este navegador.
-    // JSON.stringify convierte el objeto en texto para almacenarlo.
-    localStorage.setItem(
-      "datosGrupoIntercambio",
-      JSON.stringify(window.appIntercambio),
-    );
-
-    // Si el módulo de confirmación (AF, CL) ya está conectado, lo abre; si no, muestra evidencia de envío
     if (typeof window.mostrarConfirmacion === "function") {
       window.mostrarConfirmacion(window.appIntercambio);
     } else {

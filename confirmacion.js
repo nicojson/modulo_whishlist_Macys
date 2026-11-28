@@ -12,39 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const bloqueBotones = document.getElementById("botones-confirmacion");
   const btnNo = document.getElementById("btn-no");
   const btnSi = document.getElementById("btn-si");
-  const mensajeGuardado = document.getElementById("mensaje-guardado");
-  const textoGuardado = document.getElementById("texto-guardado");
-  const btnVolverInicio = document.getElementById("btn-volver-inicio");
 
-  // Lee localStorage y muestra el último grupo confirmado.
-  function mostrarGrupoDesdeStorage() {
-    const panel = document.getElementById("panel-localstorage");
-    const datoTexto = localStorage.getItem("grupoConfirmado");
-
-    if (!datoTexto) {
-      panel.classList.add("oculto");
-      return;
-    }
-
-    const grupo = JSON.parse(datoTexto);
-    panel.innerHTML = `
-      <strong>Último grupo guardado en memoria (localStorage):</strong><br>
-      <b>Grupo:</b> <span class="grupo-guardado-nombre"></span><br>
-      <b>Participantes (<span class="grupo-guardado-total"></span>):</b>
-      <span class="grupo-guardado-participantes"></span>
-    `;
-    // Inserta los datos como texto para conservar los nombres sin interpretar HTML.
-    panel.querySelector(".grupo-guardado-nombre").textContent = grupo.nombreGrupo;
-    panel.querySelector(".grupo-guardado-total").textContent = grupo.participantes.length;
-    panel.querySelector(".grupo-guardado-participantes").textContent = grupo.participantes.join(", ");
-    panel.classList.remove("oculto");
-  }
-
-  mostrarGrupoDesdeStorage();
-
-  // Esta función la llama grupo.js cuando el usuario presiona "Guardar"
   window.mostrarConfirmacion = function (datos) {
     // Coloca el nombre del grupo en el cuadro de solo lectura
+    document.getElementById("error-guardar-grupo").textContent = "";
     campoNombre.value = datos.nombreGrupo;
 
     // Limpia la lista anterior y agrega cada participante como un elemento <li>
@@ -55,9 +26,8 @@ document.addEventListener("DOMContentLoaded", () => {
       listaParticipantes.appendChild(li);
     }
 
-    // Asegura que los botones Sí/No estén visibles y oculta el aviso de éxito
+    // Asegura que los botones Sí/No estén visibles.
     bloqueBotones.classList.remove("oculto");
-    mensajeGuardado.classList.add("oculto");
 
     // Cambia de pantalla: oculta el formulario y muestra la confirmación
     vistaCrearGrupo.classList.add("oculto");
@@ -72,24 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // BOTÓN "SÍ": Guarda el grupo definitivamente en localStorage
   btnSi.addEventListener("click", () => {
-    // Guarda una copia confirmada en este navegador, incluso al cerrar la página.
-    localStorage.setItem(
-      "grupoConfirmado",
-      JSON.stringify(window.appIntercambio),
-    );
-    mostrarGrupoDesdeStorage();
-
-    bloqueBotones.classList.add("oculto");
-    textoGuardado.textContent = `¡Listo! El grupo "${window.appIntercambio.nombreGrupo}" se guardó correctamente.`;
-    mensajeGuardado.classList.remove("oculto");
+    const error = document.getElementById("error-guardar-grupo");
+    try {
+      localStorage.setItem("grupoConfirmado", JSON.stringify(window.appIntercambio));
+    } catch {
+      error.textContent = "No se pudo guardar el grupo. Revisa el almacenamiento del navegador e intenta de nuevo.";
+      return;
+    }
+    error.textContent = "";
+    window.mostrarInicioGrupo();
   });
 
-  // BOTÓN "CREAR OTRO GRUPO": Limpia el formulario y regresa al inicio
-  btnVolverInicio.addEventListener("click", () => {
-    document.getElementById("form-crear-grupo").reset();
-    window.appIntercambio.nombreGrupo = "";
-    window.reiniciarParticipantes();
-    vistaConfirmacion.classList.add("oculto");
-    vistaCrearGrupo.classList.remove("oculto");
-  });
 });
