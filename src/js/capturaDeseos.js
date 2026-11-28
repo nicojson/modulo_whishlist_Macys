@@ -9,6 +9,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function mostrarVista(id) {
     vistas.forEach((vista) => document.getElementById(vista).classList.toggle("oculto", vista !== id));
+    const wishlistActiva = id === "vista-deseos" || id === "vista-final";
+    document.getElementById("tab-grupo").classList.toggle("activa", !wishlistActiva);
+    document.getElementById("tab-wishlist").classList.toggle("activa", wishlistActiva);
+    document.getElementById("titulo-modulo-wishlist").classList.toggle("oculto", !wishlistActiva);
     const titulo = document.getElementById(id).querySelector("h1");
     titulo.setAttribute("tabindex", "-1");
     titulo.focus();
@@ -130,8 +134,21 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btn-volver-grupo").addEventListener("click", window.mostrarInicioGrupo);
   document.getElementById("btn-cancelar-deseos").addEventListener("click", window.mostrarInicioGrupo);
   document.getElementById("btn-crear-otro-grupo").addEventListener("click", () => {
+    grupoActual = null;
     document.getElementById("btn-cancelar").click();
     mostrarVista("vista-crear-grupo");
+  });
+
+  document.getElementById("tab-grupo").addEventListener("click", () => {
+    if (grupoActual) window.mostrarInicioGrupo();
+    else mostrarVista("vista-crear-grupo");
+  });
+  document.getElementById("tab-wishlist").addEventListener("click", () => {
+    if (!grupoActual) {
+      avisar("Crea y confirma un grupo antes de registrar tus deseos.");
+      return;
+    }
+    document.getElementById("btn-registrar-deseos").click();
   });
 
   // Restaura la pantalla final al recargar si existe una lista completa.

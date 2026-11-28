@@ -306,3 +306,99 @@ form {
   .btn-grande { min-width: 110px; }
   .acciones-grupo .btn { width: 100%; }
 }
+
+/* Navbar horizontal compacto */
+.navbar-horizontal {
+  width: 100%;
+  background-color: #ffffff;
+  border-bottom: 2px solid #2c3e50;
+}
+
+.navbar-contenido {
+  width: 100%;
+  margin: 0;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+
+.navbar-marca {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.navbar-tabs {
+  display: flex;
+  gap: 12px;
+}
+
+.nav-tab {
+  background-color: #f4f6f9;
+  color: #374151;
+  border: 2px solid #2c3e50;
+  border-radius: 10px;
+  padding: 10px 22px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    transform 0.1s;
+}
+
+.nav-tab:hover {
+  background-color: #e5e7eb;
+}
+
+.nav-tab.activa {
+  background-color: #93c5fd;
+  color: #1e3a8a;
+}
+
+/* Título navideño superior izquierdo */
+.titulo-navideno {
+  align-self: flex-start;
+  margin: 18px 0 0 24px;
+  padding: 10px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #0c61c2;
+  border: 3px solid #eab308;
+  border-left: 10px solid #facc15;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(153, 27, 27, 0.22);
+}
+
+.icono-navideno {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.titulo-navideno h2 {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.subtitulo-navideno {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fef08a;
+}
+
+
+body { flex-direction: column; padding: 0; }
+.contenedor-principal { margin: auto; padding: 20px; }
+@media (max-width: 520px) {
+  .navbar-contenido { flex-wrap: wrap; padding: 12px; }
+  .navbar-tabs { flex-wrap: wrap; }
+  .titulo-navideno { margin-left: 12px; }
+}
+.oculto { display: none; }
