@@ -1,0 +1,11 @@
+# Dependencias y entorno local
+node_modules/
+.env
+.env.*
+!.env.example
+
+# Credenciales o archivos de configuración local
+backend/config.local.js
+backend/secrets.*
+*.pem
+*.key

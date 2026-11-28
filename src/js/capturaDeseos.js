@@ -106,13 +106,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Guarda los deseos y abre la confirmación
-  form.addEventListener("submit", (evento) => {
+  form.addEventListener("submit", async (evento) => {
     evento.preventDefault();
     if (!validar()) return;
 
     const deseos = campos.map((c) => c.input.value.trim());
     window.appWishlist.deseos = deseos;
-    localStorage.setItem("wishlistBorrador", JSON.stringify(window.appWishlist));
+    localStorage.setItem(
+      "wishlistBorrador",
+      JSON.stringify(window.appWishlist),
+    );
+    await window.apiIntercambio.guardarWishlist(deseosCapturados);
 
     if (typeof window.mostrarConfirmacionDeseos === "function") {
       window.mostrarConfirmacionDeseos(window.appWishlist);

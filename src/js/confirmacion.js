@@ -43,15 +43,19 @@ document.addEventListener("DOMContentLoaded", () => {
     vistaCrearGrupo.classList.remove("oculto");
   });
 
-  // Botón "sí": guarda el grupo definitivamente en el navegador
-  btnSi.addEventListener("click", () => {
+  // Botón "sí": guarda el grupo en localStorage y en PostgreSQL
+  btnSi.addEventListener("click", async () => {
+    const { nombreGrupo, participantes } = window.appIntercambio;
+
     localStorage.setItem(
       "grupoConfirmado",
       JSON.stringify(window.appIntercambio),
     );
 
+    await window.apiIntercambio.guardarGrupo(nombreGrupo, participantes);
+
     bloqueBotones.classList.add("oculto");
-    textoGuardado.textContent = `¡Listo! El grupo "${window.appIntercambio.nombreGrupo}" se guardó correctamente.`;
+    textoGuardado.textContent = `¡Listo! El grupo "${nombreGrupo}" se guardó correctamente.`;
     mensajeGuardado.classList.remove("oculto");
   });
 
