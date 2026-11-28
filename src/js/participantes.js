@@ -1,4 +1,6 @@
+// Permite agregar, editar y eliminar participantes cuando la página está lista.
 document.addEventListener("DOMContentLoaded", () => {
+  // Se necesitan al menos tres personas para continuar al resumen.
   const MINIMO_PARTICIPANTES = 3;
   const registro = document.getElementById("registro-participante");
   const botonAbrir = document.getElementById("btn-agregar-participantes");
@@ -8,11 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const contador = document.getElementById("contador-participantes");
   const errorNombre = document.getElementById("error-participante");
   const errorMinimo = document.getElementById("error-minimo-participantes");
+  // Usa la misma lista que comparten el formulario y la confirmación.
   const participantes = window.appIntercambio.participantes;
   const botonRegistrar = document.getElementById("btn-registrar-participante");
   const botonCancelarEdicion = document.getElementById("btn-cancelar-edicion");
+  // null indica un registro nuevo; un número indica la posición que se edita.
   let indiceEdicion = null;
 
+  // Deja el campo listo para agregar otra persona.
   function terminarEdicion() {
     indiceEdicion = null;
     input.value = "";
@@ -21,12 +26,14 @@ document.addEventListener("DOMContentLoaded", () => {
     limpiarErrorNombre();
   }
 
+  // Quita el aviso visual y el mensaje de nombre obligatorio.
   function limpiarErrorNombre() {
     input.classList.remove("input-error");
     input.removeAttribute("aria-invalid");
     errorNombre.textContent = "";
   }
 
+  // Vuelve a dibujar la lista y sus botones usando los datos actuales.
   function actualizarListado() {
     lista.replaceChildren();
     participantes.forEach((nombre, indice) => {
@@ -40,6 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
       botonEditar.textContent = "Editar";
       botonEditar.setAttribute("aria-label", `Editar a ${nombre}`);
       botonEditar.addEventListener("click", () => {
+        // Carga el nombre elegido en el campo para modificarlo.
         indiceEdicion = indice;
         input.value = participantes[indice];
         botonRegistrar.textContent = "Guardar cambio";
@@ -55,12 +63,14 @@ document.addEventListener("DOMContentLoaded", () => {
       botonEliminar.setAttribute("aria-label", `Eliminar a ${nombre}`);
       botonEliminar.addEventListener("click", () => {
         participantes.splice(indice, 1);
+        // Ajusta la posición en edición si se eliminó una persona anterior.
         if (indiceEdicion === indice) {
           terminarEdicion();
         } else if (indiceEdicion !== null && indiceEdicion > indice) {
           indiceEdicion -= 1;
         }
         actualizarListado();
+        // Mantiene el foco en un botón disponible después de eliminar.
         const siguiente = lista.children[Math.min(indice, participantes.length - 1)];
         if (siguiente) {
           siguiente.querySelector(".btn-rojo").focus();
@@ -88,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
     input.focus();
   };
 
+  // Rechaza nombres vacíos y agrega o actualiza el nombre en la lista.
   function agregarParticipante() {
     const nombre = input.value.trim();
     if (!nombre) {
@@ -108,6 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
+  // Antes de continuar, guarda la edición pendiente y revisa el mínimo.
   window.validarParticipantes = function () {
     if (indiceEdicion !== null && !agregarParticipante()) return false;
     if (participantes.length >= MINIMO_PARTICIPANTES) return true;
@@ -116,6 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return false;
   };
 
+  // Vacía la lista y oculta el registro al cancelar o crear otro grupo.
   window.reiniciarParticipantes = function () {
     participantes.length = 0;
     terminarEdicion();
@@ -125,6 +138,7 @@ document.addEventListener("DOMContentLoaded", () => {
     actualizarListado();
   };
 
+  // Conecta los botones y permite registrar un nombre con la tecla Enter.
   botonRegistrar.addEventListener("click", agregarParticipante);
   botonCancelarEdicion.addEventListener("click", () => {
     terminarEdicion();
@@ -138,5 +152,6 @@ document.addEventListener("DOMContentLoaded", () => {
       agregarParticipante();
     }
   });
+  // Muestra el contador y el aviso inicial de lista vacía.
   actualizarListado();
 });

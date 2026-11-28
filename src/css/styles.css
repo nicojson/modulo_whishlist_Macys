@@ -1,3 +1,4 @@
+/* Estilos generales: aplica la misma fuente y forma de calcular tamaños. */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,6 +6,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Centra la tarjeta y limita su ancho para que se adapte a la pantalla. */
 body {
   background-color: #f4f6f9;
   display: flex;
@@ -108,6 +110,7 @@ body {
   padding: 20px;
 }
 
+/* Apariencia compartida por las tarjetas de registro y confirmación. */
 .ventana-card {
   background-color: #ffffff;
   border: 2px solid #2c3e50;
@@ -145,6 +148,7 @@ form {
   margin-bottom: 8px;
 }
 
+/* Campos de texto y señales visuales al escribir o detectar un error. */
 .campo-grupo input {
   width: 100%;
   max-width: 340px;
@@ -175,7 +179,6 @@ form {
   color: #e11d48;
 }
 
-/* Participantes y listados */
 .seccion-participantes {
   margin-bottom: 28px;
 }
@@ -244,6 +247,7 @@ form {
   gap: 14px;
 }
 
+/* Base de todos los botones; las clases de color indican cada acción. */
 .btn {
   padding: 9px 20px;
   font-size: 0.95rem;
@@ -294,7 +298,11 @@ form {
   font-size: 0.9rem;
 }
 
-/* Estilos de pantalla de confirmación */
+.oculto {
+  display: none;
+}
+
+/* ESTILOS DE LA PANTALLA DE CONFIRMACIÓN (S/N) */
 .contenido-confirmacion {
   padding: 24px;
 }
@@ -363,64 +371,4 @@ form {
 .alerta-exito p {
   margin-bottom: 10px;
   font-weight: 600;
-}
-
-/* Estilos del módulo wishlist: captura de 3 deseos */
-.nota-grupo {
-  font-size: 0.9rem;
-  font-weight: 1000;
-  color: #5bad03;
-  margin-bottom: 10px;
-}
-
-.form-wishlist {
-  padding: 18px 20px;
-  margin-bottom: 0;
-}
-
-.campo-wishlist input {
-  max-width: 100%;
-}
-
-.alerta-error-deseos {
-  margin-bottom: 14px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background-color: #fef2f2;
-  border: 1.5px solid #dc2626;
-  color: #991b1b;
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-
-.btn-continuar-wishlist {
-  width: 100%;
-  padding: 11px 20px;
-}
-
-.barra-estado-deseos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  gap: 10px;
-}
-
-.btn-enlace-limpiar {
-  background: none;
-  border: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #1f2937;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.btn-enlace-limpiar:hover {
-  color: #dc2626;
-}
-
-/* Siempre al final para ocultar cualquier bloque */
-.oculto {
-  display: none;
 }
