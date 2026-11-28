@@ -69,23 +69,57 @@
               </button>
             </div>
 
-            <div id="registro-participante" class="campo-grupo registro-participante oculto">
+            <div
+              id="registro-participante"
+              class="campo-grupo registro-participante oculto"
+            >
               <label for="nombre-participante">Nombre del participante</label>
               <div class="entrada-participante">
-                <input type="text" id="nombre-participante" placeholder="Ej. Ana López"
-                  autocomplete="off" aria-describedby="error-participante" />
-                <button type="button" id="btn-registrar-participante" class="btn btn-verde">Agregar</button>
-                <button type="button" id="btn-cancelar-edicion" class="btn btn-rojo oculto">Cancelar edición</button>
+                <input
+                  type="text"
+                  id="nombre-participante"
+                  placeholder="Ej. Ana López"
+                  autocomplete="off"
+                  aria-describedby="error-participante"
+                />
+                <button
+                  type="button"
+                  id="btn-registrar-participante"
+                  class="btn btn-verde"
+                >
+                  Agregar
+                </button>
+                <button
+                  type="button"
+                  id="btn-cancelar-edicion"
+                  class="btn btn-rojo oculto"
+                >
+                  Cancelar edición
+                </button>
               </div>
-              <p id="error-participante" class="texto-obligatorio" role="alert"></p>
+              <p
+                id="error-participante"
+                class="texto-obligatorio"
+                role="alert"
+              ></p>
             </div>
 
             <div class="caja-listado listado-participantes">
-              <p id="lista-vacia" class="nota-reservada">Aún no hay participantes registrados.</p>
+              <p id="lista-vacia" class="nota-reservada">
+                Aún no hay participantes registrados.
+              </p>
               <ul id="lista-participantes"></ul>
-              <small id="contador-participantes" class="nota-reservada" role="status"></small>
+              <small
+                id="contador-participantes"
+                class="nota-reservada"
+                role="status"
+              ></small>
             </div>
-            <p id="error-minimo-participantes" class="texto-obligatorio" role="alert"></p>
+            <p
+              id="error-minimo-participantes"
+              class="texto-obligatorio"
+              role="alert"
+            ></p>
           </div>
 
           <!-- BOTONES PRINCIPALES DE ACCIÓN -->
@@ -148,24 +182,46 @@
             </div>
           </div>
 
-          <p id="error-guardar-grupo" class="texto-obligatorio" role="alert"></p>
+          <p
+            id="error-guardar-grupo"
+            class="texto-obligatorio"
+            role="alert"
+          ></p>
         </div>
       </section>
 
-      <section id="vista-inicio-grupo" class="ventana-card oculto" aria-labelledby="titulo-inicio-grupo">
+      <section
+        id="vista-inicio-grupo"
+        class="ventana-card oculto"
+        aria-labelledby="titulo-inicio-grupo"
+      >
         <header class="ventana-header">
           <h1 id="titulo-inicio-grupo" tabindex="-1">Inicio del grupo</h1>
         </header>
         <div class="contenido-confirmacion">
           <p id="nombre-grupo-inicio" class="subtitulo-revision"></p>
-          <p class="ayuda-deseos">Selecciona tu nombre para registrar tus tres deseos.</p>
+          <p class="ayuda-deseos">
+            Selecciona tu nombre para registrar tus tres deseos.
+          </p>
           <div class="campo-grupo">
             <label for="usuario-deseos">Participante</label>
             <select id="usuario-deseos"></select>
           </div>
           <div class="acciones-grupo">
-            <button type="button" id="btn-registrar-deseos" class="btn btn-azul">Registrar mis deseos</button>
-            <button type="button" id="btn-crear-otro-grupo" class="btn btn-verde">Crear otro grupo</button>
+            <button
+              type="button"
+              id="btn-registrar-deseos"
+              class="btn btn-azul"
+            >
+              Registrar mis deseos
+            </button>
+            <button
+              type="button"
+              id="btn-crear-otro-grupo"
+              class="btn btn-verde"
+            >
+              Crear otro grupo
+            </button>
           </div>
         </div>
       </section>
@@ -183,16 +239,15 @@
             Captura tus 3 deseos materiales para el intercambio:
           </p>
 
-          <form
-            id="form-deseos"
-            class="caja-resumen form-wishlist"
-            novalidate
-          >
+          <form id="form-deseos" class="caja-resumen form-wishlist" novalidate>
             <div class="campo-grupo campo-wishlist">
               <label for="deseo-1">Deseo 1 *</label>
               <input
                 type="text"
-                id="deseo-1" required maxlength="300" aria-describedby="error-deseo-1"
+                id="deseo-1"
+                required
+                maxlength="300"
+                aria-describedby="error-deseo-1"
                 name="deseo1"
                 placeholder="Ej. Termo de acero inoxidable negro"
                 autocomplete="off"
@@ -204,7 +259,10 @@
               <label for="deseo-2">Deseo 2 *</label>
               <input
                 type="text"
-                id="deseo-2" required maxlength="300" aria-describedby="error-deseo-2"
+                id="deseo-2"
+                required
+                maxlength="300"
+                aria-describedby="error-deseo-2"
                 name="deseo2"
                 placeholder="Ej. Sudadera oversize gris"
                 autocomplete="off"
@@ -216,7 +274,10 @@
               <label for="deseo-3">Deseo 3 *</label>
               <input
                 type="text"
-                id="deseo-3" required maxlength="300" aria-describedby="error-deseo-3"
+                id="deseo-3"
+                required
+                maxlength="300"
+                aria-describedby="error-deseo-3"
                 name="deseo3"
                 placeholder="Ej. Audífonos inalámbricos over-ear"
                 autocomplete="off"
@@ -271,9 +332,19 @@
             </div>
           </div>
 
-          <p id="error-confirmar-deseos" class="texto-obligatorio" role="alert"></p>
+          <p
+            id="error-confirmar-deseos"
+            class="texto-obligatorio"
+            role="alert"
+          ></p>
           <div class="acciones-footer">
-            <button type="button" id="btn-confirmar-deseos" class="btn btn-azul">Confirmar y guardar</button>
+            <button
+              type="button"
+              id="btn-confirmar-deseos"
+              class="btn btn-azul"
+            >
+              Confirmar y guardar
+            </button>
             <button
               type="button"
               id="btn-regresar-captura-deseos"
@@ -285,7 +356,11 @@
         </div>
       </section>
 
-      <section id="vista-final" class="ventana-card oculto" aria-labelledby="titulo-final">
+      <section
+        id="vista-final"
+        class="ventana-card oculto"
+        aria-labelledby="titulo-final"
+      >
         <header class="ventana-header">
           <h1 id="titulo-final" tabindex="-1">Mis deseos guardados</h1>
         </header>
@@ -296,7 +371,9 @@
           <p id="grupo-final" class="subtitulo-revision"></p>
           <p id="usuario-final" class="ayuda-deseos"></p>
           <ol id="lista-deseos-final" class="lista-deseos"></ol>
-          <button type="button" id="btn-volver-grupo" class="btn btn-verde">Volver al inicio del grupo</button>
+          <button type="button" id="btn-volver-grupo" class="btn btn-verde">
+            Volver al inicio del grupo
+          </button>
         </div>
       </section>
       <p id="error-almacenamiento" class="banner-info oculto" role="alert"></p>
