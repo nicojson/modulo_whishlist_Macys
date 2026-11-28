@@ -1,144 +1,166 @@
-// Estado compartido entre captura, confirmación y visualización
-window.appWishlist = window.appWishlist || {
-  grupo: "",
-  deseos: ["", "", ""],
-  confirmado: false,
-};
-
+// Integra el grupo confirmado, la captura de deseos y el resumen persistente.
 document.addEventListener("DOMContentLoaded", () => {
-  const el = (id) => document.getElementById(id);
-  const vistaGrupo = el("vista-crear-grupo");
-  const vistaConfGrupo = el("vista-confirmacion");
-  const vistaDeseos = el("vista-captura-deseos");
-  const vistaConfDeseos = el("vista-confirmacion-deseos");
-  const titulo = el("titulo-modulo-wishlist");
-  const tabGrupo = el("tab-grupo");
-  const tabWishlist = el("tab-wishlist");
-  const form = el("form-capturar-deseos");
-  const alerta = el("alerta-validacion-deseos");
-  const contador = el("contador-deseos");
-  const resumen = el("resumen-deseos-capturados");
-  const contexto = el("contexto-grupo-wishlist");
-  const campos = [1, 2, 3].map((n) => ({
-    input: el(`deseo-${n}`),
-    error: el(`error-deseo-${n}`),
-    etiqueta: `Deseo ${n}`,
-  }));
+  const vistas = ["vista-crear-grupo", "vista-confirmacion", "vista-inicio-grupo", "vista-deseos", "vista-final"];
+  const selector = document.getElementById("usuario-deseos");
+  const campos = [1, 2, 3].map((numero) => document.getElementById(`deseo-${numero}`));
+  const error = document.getElementById("error-almacenamiento");
+  const errorDeseos = document.getElementById("error-deseos");
+  let grupoActual = null;
 
-  // Muestra la vista del grupo o la de la wishlist
-  function mostrarVista(esWishlist) {
-    tabGrupo.classList.toggle("activa", !esWishlist);
-    tabWishlist.classList.toggle("activa", esWishlist);
-    titulo.classList.toggle("oculto", !esWishlist);
-    vistaGrupo.classList.toggle("oculto", esWishlist);
-    vistaConfGrupo.classList.add("oculto");
-    vistaDeseos.classList.toggle("oculto", !esWishlist);
-    vistaConfDeseos.classList.add("oculto");
+  function mostrarVista(id) {
+    vistas.forEach((vista) => document.getElementById(vista).classList.toggle("oculto", vista !== id));
+    const wishlistActiva = id === "vista-deseos" || id === "vista-final";
+    document.getElementById("tab-grupo").classList.toggle("activa", !wishlistActiva);
+    document.getElementById("tab-wishlist").classList.toggle("activa", wishlistActiva);
+    document.getElementById("titulo-modulo-wishlist").classList.toggle("oculto", !wishlistActiva);
+    const titulo = document.getElementById(id).querySelector("h1");
+    titulo.setAttribute("tabindex", "-1");
+    titulo.focus();
   }
 
-  // Carga el nombre del grupo si ya fue confirmado
-  function cargarGrupo() {
-    const texto = localStorage.getItem("grupoConfirmado");
-    if (!texto) return;
-    const grupo = JSON.parse(texto);
-    window.appWishlist.grupo = grupo.nombreGrupo;
-    contexto.textContent = `Grupo activo: ${grupo.nombreGrupo}`;
-    contexto.classList.remove("oculto");
+  function avisar(mensaje) {
+    error.textContent = mensaje;
+    error.classList.toggle("oculto", !mensaje);
   }
 
-  // Cuenta cuántos deseos ya tienen texto
-  function actualizarContador() {
-    const listos = campos.filter((c) => c.input.value.trim()).length;
-    contador.textContent = `${listos} de 3 deseos completados`;
+  function leer(clave) {
+    try {
+      const texto = localStorage.getItem(clave);
+      return texto === null ? null : JSON.parse(texto);
+    } catch {
+      avisar("No se pudieron leer los datos guardados. Puedes volver a registrarlos; revisa el almacenamiento del navegador si el problema continúa.");
+      return null;
+    }
   }
 
-  // Revisa que los tres deseos tengan texto
-  function validar() {
-    let faltan = 0;
-    let primero = null;
-    campos.forEach((c) => {
-      const vacio = c.input.value.trim() === "";
-      c.input.classList.toggle("input-error", vacio);
-      c.error.textContent = vacio ? `- El ${c.etiqueta} es obligatorio.` : "";
-      if (vacio) {
-        faltan += 1;
-        primero = primero || c.input;
-      }
+  function grupoValido(grupo) {
+    return grupo && typeof grupo.nombreGrupo === "string" && grupo.nombreGrupo.trim() &&
+      Array.isArray(grupo.participantes) && grupo.participantes.length >= 3 &&
+      grupo.participantes.every((nombre) => typeof nombre === "string" && nombre.trim());
+  }
+
+  function deseosValidos(datos) {
+    return datos && grupoActual && datos.nombreGrupo === grupoActual.nombreGrupo &&
+      grupoActual.participantes.includes(datos.participante) &&
+      Array.isArray(datos.deseos) && datos.deseos.length === 3 &&
+      datos.deseos.every((deseo) => typeof deseo === "string" && deseo.trim() && deseo.length <= 300);
+  }
+
+  // La pantalla final siempre obtiene sus datos del almacenamiento, no del formulario.
+  function mostrarFinal() {
+    const datos = leer("wishlistUsuario");
+    if (!deseosValidos(datos)) {
+      avisar("No hay una lista válida de tres deseos para este grupo. Registra tus deseos de nuevo.");
+      return false;
+    }
+    document.getElementById("grupo-final").textContent = `Grupo: ${datos.nombreGrupo}`;
+    document.getElementById("usuario-final").textContent = `Participante: ${datos.participante}`;
+    const lista = document.getElementById("lista-deseos-final");
+    lista.replaceChildren();
+    datos.deseos.forEach((deseo) => {
+      const elemento = document.createElement("li");
+      elemento.textContent = deseo;
+      lista.appendChild(elemento);
     });
-    alerta.textContent = faltan
-      ? `Faltan ${faltan} deseo(s) por completar antes de continuar.`
-      : "";
-    alerta.classList.toggle("oculto", faltan === 0);
-    if (primero) primero.focus();
-    return faltan === 0;
+    selector.value = datos.participante;
+    mostrarVista("vista-final");
+    return true;
   }
 
-  tabGrupo.addEventListener("click", () => mostrarVista(false));
-  tabWishlist.addEventListener("click", () => {
-    cargarGrupo();
-    mostrarVista(true);
-  });
-
-  // Quita el error del campo cuando el usuario escribe
-  campos.forEach((c) => {
-    c.input.addEventListener("input", () => {
-      if (c.input.value.trim()) {
-        c.input.classList.remove("input-error");
-        c.error.textContent = "";
-      }
-      alerta.classList.add("oculto");
-      actualizarContador();
-    });
-  });
-
-  // Limpia los tres campos y el borrador guardado
-  el("btn-limpiar-deseos").addEventListener("click", () => {
-    form.reset();
-    campos.forEach((c) => {
-      c.input.classList.remove("input-error");
-      c.error.textContent = "";
-    });
-    alerta.classList.add("oculto");
-    window.appWishlist.deseos = ["", "", ""];
-    localStorage.removeItem("wishlistBorrador");
-    actualizarContador();
-    campos[0].input.focus();
-  });
-
-  // Guarda los deseos y abre la confirmación
-  form.addEventListener("submit", async (evento) => {
-    evento.preventDefault();
-    if (!validar()) return;
-
-    const deseos = campos.map((c) => c.input.value.trim());
-    window.appWishlist.deseos = deseos;
-    localStorage.setItem(
-      "wishlistBorrador",
-      JSON.stringify(window.appWishlist),
-    );
-    await window.apiIntercambio.guardarWishlist(deseosCapturados);
-
-    if (typeof window.mostrarConfirmacionDeseos === "function") {
-      window.mostrarConfirmacionDeseos(window.appWishlist);
+  window.mostrarInicioGrupo = function () {
+    const grupo = leer("grupoConfirmado");
+    if (!grupoValido(grupo)) {
+      avisar("No hay un grupo guardado válido. Crea y confirma un grupo para continuar.");
+      mostrarVista("vista-crear-grupo");
       return;
     }
-
-    resumen.replaceChildren();
-    deseos.forEach((texto) => {
-      const item = document.createElement("li");
-      item.textContent = texto;
-      resumen.appendChild(item);
+    grupoActual = grupo;
+    const seleccionado = selector.value;
+    selector.replaceChildren();
+    grupo.participantes.forEach((nombre) => {
+      const opcion = document.createElement("option");
+      opcion.value = nombre;
+      opcion.textContent = nombre;
+      selector.appendChild(opcion);
     });
-    vistaDeseos.classList.add("oculto");
-    vistaConfDeseos.classList.remove("oculto");
+    if (grupo.participantes.includes(seleccionado)) selector.value = seleccionado;
+    document.getElementById("nombre-grupo-inicio").textContent = grupo.nombreGrupo;
+    mostrarVista("vista-inicio-grupo");
+  };
+
+  document.getElementById("btn-registrar-deseos").addEventListener("click", () => {
+    const guardados = leer("wishlistUsuario");
+    const propios = deseosValidos(guardados) && guardados.participante === selector.value;
+    campos.forEach((campo, indice) => {
+      campo.value = propios ? guardados.deseos[indice] : "";
+      campo.removeAttribute("aria-invalid");
+      campo.classList.remove("input-error");
+    });
+    errorDeseos.textContent = "";
+    document.getElementById("contexto-deseos").textContent = `${selector.value} · ${grupoActual.nombreGrupo}. Escribe tus tres deseos en orden de preferencia.`;
+    mostrarVista("vista-deseos");
+    campos[0].focus();
   });
 
-  // Regresa a editar los deseos sin borrarlos
-  el("btn-regresar-captura-deseos").addEventListener("click", () => {
-    vistaConfDeseos.classList.add("oculto");
-    vistaDeseos.classList.remove("oculto");
+  document.getElementById("form-deseos").addEventListener("submit", async (evento) => {
+    evento.preventDefault();
+    const deseos = campos.map((campo) => campo.value.trim());
+    campos.forEach((campo, indice) => {
+      const invalido = !deseos[indice] || deseos[indice].length > 300;
+      campo.classList.toggle("input-error", invalido);
+      campo.setAttribute("aria-invalid", String(invalido));
+    });
+    const primerInvalido = campos.find((campo) => campo.getAttribute("aria-invalid") === "true");
+    if (primerInvalido) {
+      errorDeseos.textContent = "Completa los tres deseos con un máximo de 300 caracteres por deseo.";
+      primerInvalido.focus();
+      return;
+    }
+    try {
+      localStorage.setItem("wishlistUsuario", JSON.stringify({
+        nombreGrupo: grupoActual.nombreGrupo,
+        participante: selector.value,
+        deseos,
+      }));
+    } catch {
+      errorDeseos.textContent = "No se pudieron guardar tus deseos. Revisa el almacenamiento del navegador e intenta de nuevo.";
+      return;
+    }
+    const grupoId = grupoActual.grupo_id;
+    const participante = grupoActual.participantesDB?.find((persona) => persona.nombre === selector.value);
+    errorDeseos.textContent = "";
+    avisar("");
+    mostrarFinal();
+    await window.apiIntercambio.guardarWishlist(deseos, participante?.participante_id, grupoId);
   });
 
-  cargarGrupo();
-  actualizarContador();
+  document.getElementById("btn-volver-grupo").addEventListener("click", window.mostrarInicioGrupo);
+  document.getElementById("btn-cancelar-deseos").addEventListener("click", window.mostrarInicioGrupo);
+  document.getElementById("btn-crear-otro-grupo").addEventListener("click", () => {
+    grupoActual = null;
+    document.getElementById("btn-cancelar").click();
+    mostrarVista("vista-crear-grupo");
+  });
+
+  document.getElementById("tab-grupo").addEventListener("click", () => {
+    if (grupoActual) window.mostrarInicioGrupo();
+    else mostrarVista("vista-crear-grupo");
+  });
+  document.getElementById("tab-wishlist").addEventListener("click", () => {
+    if (!grupoActual) {
+      avisar("Crea y confirma un grupo antes de registrar tus deseos.");
+      return;
+    }
+    document.getElementById("btn-registrar-deseos").click();
+  });
+
+  // Restaura la pantalla final al recargar si existe una lista completa.
+  const grupo = leer("grupoConfirmado");
+  if (grupoValido(grupo)) {
+    window.mostrarInicioGrupo();
+    const deseos = leer("wishlistUsuario");
+    if (deseosValidos(deseos)) mostrarFinal();
+  } else if (grupo !== null) {
+    avisar("Los datos del grupo guardado no son válidos. Crea y confirma un grupo para continuar.");
+  }
 });

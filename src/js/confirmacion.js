@@ -1,19 +1,18 @@
 // Muestra el resumen y permite volver a editar o confirmar el grupo.
 document.addEventListener("DOMContentLoaded", () => {
-  // Referencias a las dos pantallas
+  // 1. Referencias a las dos pantallas
   const vistaCrearGrupo = document.getElementById("vista-crear-grupo");
   const vistaConfirmacion = document.getElementById("vista-confirmacion");
 
-  // Referencias a los campos donde mostraremos el resumen
+  // 2. Referencias a los campos donde mostraremos el resumen
   const campoNombre = document.getElementById("confirmar-nombre");
   const listaParticipantes = document.getElementById("confirmar-participantes");
 
-  // Referencias a los botones y mensajes
+  // 3. Referencias a los botones y mensajes
   const bloqueBotones = document.getElementById("botones-confirmacion");
   const btnNo = document.getElementById("btn-no");
   const btnSi = document.getElementById("btn-si");
 
-  // Esta función la llama grupo.js cuando el usuario presiona "Guardar"
   window.mostrarConfirmacion = function (datos) {
     // Coloca el nombre del grupo en el cuadro de solo lectura
     document.getElementById("error-guardar-grupo").textContent = "";
@@ -27,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       listaParticipantes.appendChild(li);
     }
 
-    // Asegura que los botones Sí/No estén visibles y oculta el aviso de éxito
+    // Asegura que los botones Sí/No estén visibles.
     bloqueBotones.classList.remove("oculto");
 
     // Cambia de pantalla: oculta el formulario y muestra la confirmación
@@ -35,31 +34,37 @@ document.addEventListener("DOMContentLoaded", () => {
     vistaConfirmacion.classList.remove("oculto");
   };
 
-  // Botón "no": cancela el guardado y regresa a editar sin borrar los datos
+  // BOTÓN "NO": Cancela el guardado y regresa a editar sin borrar los datos
   btnNo.addEventListener("click", () => {
     vistaConfirmacion.classList.add("oculto");
     vistaCrearGrupo.classList.remove("oculto");
   });
 
   // BOTÓN "SÍ": Guarda el grupo definitivamente en localStorage
-  btnSi.addEventListener("click", () => {
-    localStorage.setItem(
-      "grupoConfirmado",
-      JSON.stringify(window.appIntercambio),
-    );
-
-    bloqueBotones.classList.add("oculto");
-    textoGuardado.textContent = `¡Listo! El grupo "${window.appIntercambio.nombreGrupo}" se guardó correctamente.`;
-    mensajeGuardado.classList.remove("oculto");
-  });
-
-  // BOTÓN "CREAR OTRO GRUPO": Limpia el formulario y regresa al inicio
-  btnVolverInicio.addEventListener("click", () => {
-    document.getElementById("form-crear-grupo").reset();
-    window.appIntercambio.nombreGrupo = "";
-    window.reiniciarParticipantes();
-    vistaConfirmacion.classList.add("oculto");
-    vistaCrearGrupo.classList.remove("oculto");
+  btnSi.addEventListener("click", async () => {
+    const error = document.getElementById("error-guardar-grupo");
+    btnSi.disabled = true;
+    // Copia estable del grupo; los nombres siguen siendo cadenas para las vistas.
+    const grupo = {
+      nombreGrupo: window.appIntercambio.nombreGrupo,
+      participantes: [...window.appIntercambio.participantes],
+    };
+    try {
+      localStorage.setItem("grupoConfirmado", JSON.stringify(grupo));
+      const guardado = await window.apiIntercambio.guardarGrupo(grupo.nombreGrupo, grupo.participantes);
+      if (guardado) {
+        grupo.grupo_id = guardado.grupo_id;
+        grupo.participantesDB = guardado.participantes;
+        localStorage.setItem("grupoConfirmado", JSON.stringify(grupo));
+      }
+    } catch {
+      error.textContent = "No se pudo guardar el grupo. Revisa el almacenamiento del navegador e intenta de nuevo.";
+      return;
+    } finally {
+      btnSi.disabled = false;
+    }
+    error.textContent = "";
+    window.mostrarInicioGrupo();
   });
 
 });

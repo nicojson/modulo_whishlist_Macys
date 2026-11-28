@@ -1,4 +1,4 @@
-// Estado compartido entre los módulos de grupo, participantes y confirmación
+// Estado compartido entre los módulos de USA (Grupo, Participantes y Confirmación S/N)
 window.appIntercambio = window.appIntercambio || {
   nombreGrupo: "",
   participantes: [],
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Botón "agregar participantes" (punto de enlace con el registro)
+  // Botón "Agregar participantes" (punto de enlace con el módulo de BR y AE)
   btnAgregarParticipantes.addEventListener("click", () => {
     if (typeof window.abrirModalParticipantes === "function") {
       window.abrirModalParticipantes();
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Botón "cancelar": limpia el formulario y reinicia el estado
+  // Botón "Cancelar": limpia el formulario y reinicia el estado
   btnCancelar.addEventListener("click", () => {
     form.reset();
     inputNombre.classList.remove("input-error");
@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.reiniciarParticipantes();
   });
 
-  // Botón "guardar": valida, captura y envía los datos a confirmación
+  // Botón "Guardar": valida, captura y envía datos a Confirmación (S/N)
   form.addEventListener("submit", (evento) => {
     evento.preventDefault();
 
@@ -75,12 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nombreCapturado = inputNombre.value.trim();
     window.appIntercambio.nombreGrupo = nombreCapturado;
-    localStorage.setItem(
-      "datosGrupoIntercambio",
-      JSON.stringify(window.appIntercambio),
-    );
-
-    // Si la confirmación ya está conectada, la abre; si no, muestra el aviso de envío
     if (typeof window.mostrarConfirmacion === "function") {
       window.mostrarConfirmacion(window.appIntercambio);
     } else {
