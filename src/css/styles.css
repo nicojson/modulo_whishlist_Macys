@@ -1,3 +1,4 @@
+/* Estilos generales: aplica la misma fuente y forma de calcular tamaños. */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,13 +6,305 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Centra la tarjeta y limita su ancho para que se adapte a la pantalla. */
 body {
   background-color: #f4f6f9;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 0;
+  padding: 20px;
+}
+
+.contenedor-principal {
+  width: 100%;
+  max-width: 560px;
+}
+
+/* Apariencia compartida por las tarjetas de registro y confirmación. */
+.ventana-card {
+  background-color: #ffffff;
+  border: 2px solid #2c3e50;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.ventana-header {
+  padding: 16px 24px;
+  border-bottom: 2px solid #2c3e50;
+  text-align: center;
+  background-color: #fafafa;
+}
+
+.ventana-header h1 {
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+form {
+  padding: 24px;
+}
+
+.campo-grupo {
+  margin-bottom: 22px;
+}
+
+.campo-grupo label,
+.etiqueta-seccion {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+.fila-participante { flex-wrap: wrap; }
+.acciones-participante {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Campos de texto y señales visuales al escribir o detectar un error. */
+.campo-grupo input {
+  width: 100%;
+  max-width: 340px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  border: 1.5px solid #374151;
+  border-radius: 10px;
+  outline: none;
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+.campo-grupo input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.campo-grupo input.input-error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.texto-obligatorio {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #e11d48;
+}
+
+/* Distribución del registro, listado y acciones de cada participante. */
+.seccion-participantes {
+  margin-bottom: 28px;
+}
+
+.participantes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.participantes-header .etiqueta-seccion {
+  margin-bottom: 0;
+}
+
+.caja-listado {
+  border: 1.5px solid #374151;
+  border-radius: 12px;
+  padding: 14px 18px;
+  max-width: 340px;
+  background-color: #fcfcfc;
+}
+
+.caja-listado ul {
+  list-style-position: inside;
+  margin-bottom: 8px;
+  color: #1f2937;
+  line-height: 1.6;
+}
+
+.nota-reservada {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.registro-participante { margin-top: 18px; }
+
+.entrada-participante {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.entrada-participante input { flex: 1 1 180px; min-width: 0; }
+.listado-participantes { max-width: 100%; }
+.caja-listado li { overflow-wrap: anywhere; }
+.fila-participante {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.fila-participante span { min-width: 0; }
+.fila-participante .btn { flex-shrink: 0; }
+.btn:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+
+.acciones-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+/* Base de todos los botones; las clases de color indican cada acción. */
+.btn {
+  padding: 9px 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border: 1.5px solid #1f2937;
+  border-radius: 10px;
+  cursor: pointer;
+  transition:
+    transform 0.1s,
+    filter 0.15s;
+}
+
+.btn:hover {
+  filter: brightness(0.95);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-verde {
+  background-color: #a7f3d0;
+  color: #064e3b;
+}
+
+.btn-rojo {
+  background-color: #fca5a5;
+  color: #7f1d1d;
+}
+
+.btn-azul {
+  background-color: #93c5fd;
+  color: #1e3a8a;
+}
+
+.banner-info {
+  margin: 0 24px 20px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background-color: #eff6ff;
+  border: 1.5px solid #3b82f6;
+  color: #1e40af;
+  font-size: 0.9rem;
+}
+
+/* JavaScript agrega o quita esta clase para ocultar o mostrar elementos. */
+.oculto {
+  display: none;
+}
+
+/* ESTILOS DE LA PANTALLA DE CONFIRMACIÓN (S/N) */
+.contenido-confirmacion {
+  padding: 24px;
+}
+
+.subtitulo-revision {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.caja-resumen {
+  border: 1.5px solid #374151;
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+}
+
+.caja-resumen input[readonly] {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+.pregunta-confirmacion {
+  text-align: center;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.acciones-confirmacion {
+  display: flex;
+  justify-content: center;
+  gap: 28px;
+}
+
+.columna-boton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-grande {
+  min-width: 145px;
+  font-size: 1rem;
+}
+
+.texto-ayuda {
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.alerta-exito {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 10px;
+  background-color: #ecfdf5;
+  border: 1.5px solid #10b981;
+  color: #065f46;
+  text-align: center;
+}
+
+.alerta-exito p {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.campo-grupo select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1.5px solid #374151;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.ayuda-deseos { margin-bottom: 20px; color: #374151; overflow-wrap: anywhere; }
+.acciones-grupo { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.lista-deseos { padding-left: 32px; margin: 20px 0 24px; }
+.lista-deseos li { padding: 14px 12px; margin-bottom: 12px; background: #f4f6f9; border-radius: 10px; overflow-wrap: anywhere; white-space: pre-wrap; }
+#vista-final .alerta-exito { margin: 0 0 20px; }
+#grupo-final { overflow-wrap: anywhere; }
+
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .acciones-confirmacion { gap: 12px; flex-wrap: wrap; }
+  .btn-grande { min-width: 110px; }
+  .acciones-grupo .btn { width: 100%; }
 }
 
 /* Navbar horizontal compacto */
@@ -100,327 +393,12 @@ body {
   color: #fef08a;
 }
 
-/* Contenedor centrado y tarjetas principales */
-.contenedor-principal {
-  width: 100%;
-  max-width: 560px;
-  margin: auto;
-  padding: 20px;
-}
 
-.ventana-card {
-  background-color: #ffffff;
-  border: 2px solid #2c3e50;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+body { flex-direction: column; padding: 0; }
+.contenedor-principal { margin: auto; padding: 20px; }
+@media (max-width: 520px) {
+  .navbar-contenido { flex-wrap: wrap; padding: 12px; }
+  .navbar-tabs { flex-wrap: wrap; }
+  .titulo-navideno { margin-left: 12px; }
 }
-
-.ventana-header {
-  padding: 16px 24px;
-  border-bottom: 2px solid #2c3e50;
-  text-align: center;
-  background-color: #fafafa;
-}
-
-.ventana-header h1 {
-  font-size: 1.25rem;
-  color: #1f2937;
-}
-
-form {
-  padding: 24px;
-}
-
-.campo-grupo {
-  margin-bottom: 22px;
-}
-
-.campo-grupo label,
-.etiqueta-seccion {
-  display: block;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 8px;
-}
-
-.campo-grupo input {
-  width: 100%;
-  max-width: 340px;
-  padding: 10px 14px;
-  font-size: 0.95rem;
-  border: 1.5px solid #374151;
-  border-radius: 10px;
-  outline: none;
-  transition:
-    border-color 0.2s,
-    box-shadow 0.2s;
-}
-
-.campo-grupo input:focus {
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-}
-
-.campo-grupo input.input-error {
-  border-color: #dc2626;
-  background-color: #fef2f2;
-}
-
-.texto-obligatorio {
-  margin-top: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #e11d48;
-}
-
-/* Participantes y listados */
-.seccion-participantes {
-  margin-bottom: 28px;
-}
-
-.participantes-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 10px;
-  flex-wrap: wrap;
-}
-
-.participantes-header .etiqueta-seccion {
-  margin-bottom: 0;
-}
-
-.caja-listado {
-  border: 1.5px solid #374151;
-  border-radius: 12px;
-  padding: 14px 18px;
-  max-width: 340px;
-  background-color: #fcfcfc;
-}
-
-.caja-listado ul,
-.caja-listado ol {
-  list-style-position: inside;
-  margin-bottom: 8px;
-  color: #1f2937;
-  line-height: 1.6;
-}
-
-.nota-reservada {
-  color: #6b7280;
-  font-size: 0.85rem;
-}
-
-.registro-participante {
-  margin-top: 18px;
-}
-
-.entrada-participante {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.entrada-participante input {
-  flex: 1 1 180px;
-  min-width: 0;
-}
-
-.listado-participantes {
-  max-width: 100%;
-}
-
-.caja-listado li {
-  overflow-wrap: anywhere;
-}
-
-/* Botones y banners */
-.acciones-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 14px;
-}
-
-.btn {
-  padding: 9px 20px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  border: 1.5px solid #1f2937;
-  border-radius: 10px;
-  cursor: pointer;
-  transition:
-    transform 0.1s,
-    filter 0.15s;
-}
-
-.btn:hover {
-  filter: brightness(0.95);
-}
-
-.btn:active {
-  transform: scale(0.98);
-}
-
-.btn:focus-visible {
-  outline: 3px solid #2563eb;
-  outline-offset: 3px;
-}
-
-.btn-verde {
-  background-color: #a7f3d0;
-  color: #064e3b;
-}
-
-.btn-rojo {
-  background-color: #fca5a5;
-  color: #7f1d1d;
-}
-
-.btn-azul {
-  background-color: #93c5fd;
-  color: #1e3a8a;
-}
-
-.banner-info {
-  margin: 0 24px 20px;
-  padding: 12px 16px;
-  border-radius: 10px;
-  background-color: #eff6ff;
-  border: 1.5px solid #3b82f6;
-  color: #1e40af;
-  font-size: 0.9rem;
-}
-
-/* Estilos de pantalla de confirmación */
-.contenido-confirmacion {
-  padding: 24px;
-}
-
-.subtitulo-revision {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1f2937;
-  margin-bottom: 12px;
-}
-
-.caja-resumen {
-  border: 1.5px solid #374151;
-  border-radius: 12px;
-  padding: 18px 20px;
-  margin-bottom: 20px;
-  background-color: #ffffff;
-}
-
-.caja-resumen input[readonly] {
-  background-color: #ffffff;
-  color: #1f2937;
-}
-
-.pregunta-confirmacion {
-  text-align: center;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 16px;
-}
-
-.acciones-confirmacion {
-  display: flex;
-  justify-content: center;
-  gap: 28px;
-}
-
-.columna-boton {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.btn-grande {
-  min-width: 145px;
-  font-size: 1rem;
-}
-
-.texto-ayuda {
-  font-size: 0.85rem;
-  color: #374151;
-}
-
-.alerta-exito {
-  margin-top: 16px;
-  padding: 16px;
-  border-radius: 10px;
-  background-color: #ecfdf5;
-  border: 1.5px solid #10b981;
-  color: #065f46;
-  text-align: center;
-}
-
-.alerta-exito p {
-  margin-bottom: 10px;
-  font-weight: 600;
-}
-
-/* Estilos del módulo wishlist: captura de 3 deseos */
-.nota-grupo {
-  font-size: 0.9rem;
-  font-weight: 1000;
-  color: #5bad03;
-  margin-bottom: 10px;
-}
-
-.form-wishlist {
-  padding: 18px 20px;
-  margin-bottom: 0;
-}
-
-.campo-wishlist input {
-  max-width: 100%;
-}
-
-.alerta-error-deseos {
-  margin-bottom: 14px;
-  padding: 10px 14px;
-  border-radius: 10px;
-  background-color: #fef2f2;
-  border: 1.5px solid #dc2626;
-  color: #991b1b;
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-
-.btn-continuar-wishlist {
-  width: 100%;
-  padding: 11px 20px;
-}
-
-.barra-estado-deseos {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 12px;
-  gap: 10px;
-}
-
-.btn-enlace-limpiar {
-  background: none;
-  border: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #1f2937;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.btn-enlace-limpiar:hover {
-  color: #dc2626;
-}
-
-/* Siempre al final para ocultar cualquier bloque */
-.oculto {
-  display: none;
-}
+.oculto { display: none; }
