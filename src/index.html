@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Intercambio Navideño - SPR2_EQ1B</title>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Navbar horizontal compacto -->
+    <nav class="navbar-horizontal" aria-label="Menú principal">
+      <div class="navbar-contenido">
+        <h2>Intercambio Navideño</h2>
+        <div class="navbar-tabs">
+          <button type="button" id="tab-grupo" class="nav-tab activa">
+            Grupo
+          </button>
+          <button type="button" id="tab-wishlist" class="nav-tab">
+            Módulo Wishlist
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Título navideño en la esquina superior izquierda -->
+    <div id="titulo-modulo-wishlist" class="titulo-navideno oculto">
+      <span class="icono-navideno" aria-hidden="true">🎄</span>
+      <div>
+        <h2>Módulo Wishlist</h2>
+        <span class="subtitulo-navideno">Lista de deseos navideños</span>
+      </div>
+    </div>
+
+    <main class="contenedor-principal">
+      <!-- Tarjeta 1: creación del grupo -->
+      <section id="vista-crear-grupo" class="ventana-card">
+        <header class="ventana-header">
+          <h1>Crear Nuevo Grupo de Intercambio</h1>
+        </header>
+
+        <form id="form-crear-grupo" novalidate>
+          <div class="campo-grupo">
+            <label for="nombre-grupo">Nombre del grupo * (obligatorio)</label>
+            <input
+              type="text"
+              id="nombre-grupo"
+              name="nombreGrupo"
+              placeholder="Ej. Intercambio Navideño EQ1B"
+              autocomplete="off"
+            />
+            <p id="mensaje-obligatorio" class="texto-obligatorio">
+              - Campo obligatorio
+            </p>
+          </div>
+
+          <!-- Registro y listado de participantes -->
+          <div class="seccion-participantes">
+            <div class="participantes-header">
+              <span class="etiqueta-seccion">Participantes del grupo</span>
+              <button
+                type="button"
+                id="btn-agregar-participantes"
+                class="btn btn-verde"
+                aria-expanded="false"
+                aria-controls="registro-participante"
+              >
+                Agregar participantes
+              </button>
+            </div>
+
+            <div
+              id="registro-participante"
+              class="campo-grupo registro-participante oculto"
+            >
+              <label for="nombre-participante">Nombre del participante</label>
+              <div class="entrada-participante">
+                <input
+                  type="text"
+                  id="nombre-participante"
+                  placeholder="Ej. Ana López"
+                  autocomplete="off"
+                  aria-describedby="error-participante"
+                />
+                <button
+                  type="button"
+                  id="btn-registrar-participante"
+                  class="btn btn-verde"
+                >
+                  Agregar
+                </button>
+                <button
+                  type="button"
+                  id="btn-cancelar-edicion"
+                  class="btn btn-rojo oculto"
+                >
+                  Cancelar edición
+                </button>
+              </div>
+              <p
+                id="error-participante"
+                class="texto-obligatorio"
+                role="alert"
+              ></p>
+            </div>
+
+            <div class="caja-listado listado-participantes">
+              <p id="lista-vacia" class="nota-reservada">
+                Aún no hay participantes registrados.
+              </p>
+              <ul id="lista-participantes"></ul>
+              <small
+                id="contador-participantes"
+                class="nota-reservada"
+                role="status"
+              ></small>
+            </div>
+            <p
+              id="error-minimo-participantes"
+              class="texto-obligatorio"
+              role="alert"
+            ></p>
+          </div>
+
+          <!-- Botones principales de acción -->
+          <div class="acciones-footer">
+            <button type="button" id="btn-cancelar" class="btn btn-rojo">
+              Cancelar
+            </button>
+            <button type="submit" id="btn-guardar" class="btn btn-azul">
+              Guardar
+            </button>
+          </div>
+        </form>
+
+        <!-- Banner de prueba para evidencia de envío a confirmación -->
+        <div id="banner-envio" class="banner-info oculto"></div>
+      </section>
+
+      <!-- Tarjeta 2: confirmación o cancelación del registro -->
+      <section id="vista-confirmacion" class="ventana-card oculto">
+        <header class="ventana-header">
+          <h1>Confirmar registro del grupo</h1>
+        </header>
+
+        <div class="contenido-confirmacion">
+          <p class="subtitulo-revision">Revisa los datos antes de guardar:</p>
+
+          <div class="caja-resumen">
+            <div class="campo-grupo">
+              <label for="confirmar-nombre">Nombre del grupo</label>
+              <input type="text" id="confirmar-nombre" readonly />
+            </div>
+
+            <div>
+              <span class="etiqueta-seccion">Participantes del grupo</span>
+              <div class="caja-listado">
+                <ul id="confirmar-participantes"></ul>
+              </div>
+            </div>
+          </div>
+
+          <p class="pregunta-confirmacion">
+            ¿Deseas guardar este grupo de intercambio?
+          </p>
+
+          <div id="botones-confirmacion" class="acciones-confirmacion">
+            <div class="columna-boton">
+              <button type="button" id="btn-no" class="btn btn-rojo btn-grande">
+                No
+              </button>
+              <span class="texto-ayuda">Regresar a editar</span>
+            </div>
+
+            <div class="columna-boton">
+              <button type="button" id="btn-si" class="btn btn-azul btn-grande">
+                Sí
+              </button>
+              <span class="texto-ayuda">Guardar grupo</span>
+            </div>
+          </div>
+
+          <div id="mensaje-guardado" class="alerta-exito oculto">
+            <p id="texto-guardado"></p>
+            <button type="button" id="btn-volver-inicio" class="btn btn-verde">
+              Crear otro grupo
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tarjeta 3: captura de los 3 deseos -->
+      <section id="vista-captura-deseos" class="ventana-card oculto">
+        <header class="ventana-header">
+          <h1>Wishlist: Capturar 3 deseos</h1>
+        </header>
+
+        <div class="contenido-confirmacion">
+          <p id="contexto-grupo-wishlist" class="nota-grupo oculto"></p>
+
+          <p class="subtitulo-revision">
+            Captura tus 3 deseos materiales para el intercambio:
+          </p>
+
+          <form
+            id="form-capturar-deseos"
+            class="caja-resumen form-wishlist"
+            novalidate
+          >
+            <div class="campo-grupo campo-wishlist">
+              <label for="deseo-1">Deseo 1 *</label>
+              <input
+                type="text"
+                id="deseo-1"
+                name="deseo1"
+                placeholder="Ej. Termo de acero inoxidable negro"
+                autocomplete="off"
+              />
+              <p id="error-deseo-1" class="texto-obligatorio" role="alert"></p>
+            </div>
+
+            <div class="campo-grupo campo-wishlist">
+              <label for="deseo-2">Deseo 2 *</label>
+              <input
+                type="text"
+                id="deseo-2"
+                name="deseo2"
+                placeholder="Ej. Sudadera oversize gris"
+                autocomplete="off"
+              />
+              <p id="error-deseo-2" class="texto-obligatorio" role="alert"></p>
+            </div>
+
+            <div class="campo-grupo campo-wishlist">
+              <label for="deseo-3">Deseo 3 *</label>
+              <input
+                type="text"
+                id="deseo-3"
+                name="deseo3"
+                placeholder="Ej. Audífonos inalámbricos over-ear"
+                autocomplete="off"
+              />
+              <p id="error-deseo-3" class="texto-obligatorio" role="alert"></p>
+            </div>
+
+            <div
+              id="alerta-validacion-deseos"
+              class="alerta-error-deseos oculto"
+              role="alert"
+            ></div>
+
+            <button
+              type="submit"
+              id="btn-continuar-deseos"
+              class="btn btn-azul btn-continuar-wishlist"
+            >
+              Continuar a confirmación
+            </button>
+
+            <div class="barra-estado-deseos">
+              <span id="contador-deseos" class="nota-reservada" role="status">
+                0 de 3 deseos completados
+              </span>
+              <button
+                type="button"
+                id="btn-limpiar-deseos"
+                class="btn-enlace-limpiar"
+              >
+                Limpiar campos
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Tarjeta 4: puente a confirmación de deseos -->
+      <section id="vista-confirmacion-deseos" class="ventana-card oculto">
+        <header class="ventana-header">
+          <h1>Confirmar deseos de la Wishlist</h1>
+        </header>
+
+        <div class="contenido-confirmacion">
+          <p class="subtitulo-revision">
+            Deseos capturados listos para confirmar:
+          </p>
+
+          <div class="caja-resumen">
+            <div class="caja-listado listado-participantes">
+              <ol id="resumen-deseos-capturados"></ol>
+            </div>
+          </div>
+
+          <div class="acciones-footer">
+            <button
+              type="button"
+              id="btn-regresar-captura-deseos"
+              class="btn btn-rojo"
+            >
+              Regresar a editar
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/grupo.js"></script>
+    <script src="js/participantes.js"></script>
+    <script src="js/confirmacion.js"></script>
+    <script src="js/capturaDeseos.js"></script>
+  </body>
+</html>
