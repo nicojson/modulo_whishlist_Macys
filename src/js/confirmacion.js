@@ -41,13 +41,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // BOTÓN "SÍ": Guarda el grupo definitivamente en localStorage
-  btnSi.addEventListener("click", () => {
+  btnSi.addEventListener("click", async () => {
     const error = document.getElementById("error-guardar-grupo");
+    btnSi.disabled = true;
+    // Copia estable del grupo; los nombres siguen siendo cadenas para las vistas.
+    const grupo = {
+      nombreGrupo: window.appIntercambio.nombreGrupo,
+      participantes: [...window.appIntercambio.participantes],
+    };
     try {
-      localStorage.setItem("grupoConfirmado", JSON.stringify(window.appIntercambio));
+      localStorage.setItem("grupoConfirmado", JSON.stringify(grupo));
+      const guardado = await window.apiIntercambio.guardarGrupo(grupo.nombreGrupo, grupo.participantes);
+      if (guardado) {
+        grupo.grupo_id = guardado.grupo_id;
+        grupo.participantesDB = guardado.participantes;
+        localStorage.setItem("grupoConfirmado", JSON.stringify(grupo));
+      }
     } catch {
       error.textContent = "No se pudo guardar el grupo. Revisa el almacenamiento del navegador e intenta de nuevo.";
       return;
+    } finally {
+      btnSi.disabled = false;
     }
     error.textContent = "";
     window.mostrarInicioGrupo();

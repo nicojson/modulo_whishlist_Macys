@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     campos[0].focus();
   });
 
-  document.getElementById("form-deseos").addEventListener("submit", (evento) => {
+  document.getElementById("form-deseos").addEventListener("submit", async (evento) => {
     evento.preventDefault();
     const deseos = campos.map((campo) => campo.value.trim());
     campos.forEach((campo, indice) => {
@@ -126,9 +126,12 @@ document.addEventListener("DOMContentLoaded", () => {
       errorDeseos.textContent = "No se pudieron guardar tus deseos. Revisa el almacenamiento del navegador e intenta de nuevo.";
       return;
     }
+    const grupoId = grupoActual.grupo_id;
+    const participante = grupoActual.participantesDB?.find((persona) => persona.nombre === selector.value);
     errorDeseos.textContent = "";
     avisar("");
     mostrarFinal();
+    await window.apiIntercambio.guardarWishlist(deseos, participante?.participante_id, grupoId);
   });
 
   document.getElementById("btn-volver-grupo").addEventListener("click", window.mostrarInicioGrupo);
