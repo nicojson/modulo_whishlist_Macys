@@ -170,30 +170,119 @@
         </div>
       </section>
 
-      <section id="vista-deseos" class="ventana-card oculto" aria-labelledby="titulo-deseos">
+      <!-- Tarjeta 3: captura de los 3 deseos -->
+      <section id="vista-deseos" class="ventana-card oculto">
         <header class="ventana-header">
-          <h1 id="titulo-deseos" tabindex="-1">Mis tres deseos</h1>
+          <h1 id="titulo-deseos" tabindex="-1">Wishlist: Capturar 3 deseos</h1>
         </header>
-        <form id="form-deseos" novalidate>
-          <p id="contexto-deseos" class="ayuda-deseos"></p>
-          <div class="campo-grupo">
-            <label for="deseo-1">Deseo 1</label>
-            <input id="deseo-1" name="deseo1" type="text" required maxlength="300" aria-describedby="error-deseos" />
+
+        <div class="contenido-confirmacion">
+          <p id="contexto-deseos" class="nota-grupo oculto"></p>
+
+          <p class="subtitulo-revision">
+            Captura tus 3 deseos materiales para el intercambio:
+          </p>
+
+          <form
+            id="form-deseos"
+            class="caja-resumen form-wishlist"
+            novalidate
+          >
+            <div class="campo-grupo campo-wishlist">
+              <label for="deseo-1">Deseo 1 *</label>
+              <input
+                type="text"
+                id="deseo-1" required maxlength="300" aria-describedby="error-deseo-1"
+                name="deseo1"
+                placeholder="Ej. Termo de acero inoxidable negro"
+                autocomplete="off"
+              />
+              <p id="error-deseo-1" class="texto-obligatorio" role="alert"></p>
+            </div>
+
+            <div class="campo-grupo campo-wishlist">
+              <label for="deseo-2">Deseo 2 *</label>
+              <input
+                type="text"
+                id="deseo-2" required maxlength="300" aria-describedby="error-deseo-2"
+                name="deseo2"
+                placeholder="Ej. Sudadera oversize gris"
+                autocomplete="off"
+              />
+              <p id="error-deseo-2" class="texto-obligatorio" role="alert"></p>
+            </div>
+
+            <div class="campo-grupo campo-wishlist">
+              <label for="deseo-3">Deseo 3 *</label>
+              <input
+                type="text"
+                id="deseo-3" required maxlength="300" aria-describedby="error-deseo-3"
+                name="deseo3"
+                placeholder="Ej. Audífonos inalámbricos over-ear"
+                autocomplete="off"
+              />
+              <p id="error-deseo-3" class="texto-obligatorio" role="alert"></p>
+            </div>
+
+            <div
+              id="error-deseos"
+              class="alerta-error-deseos oculto"
+              role="alert"
+            ></div>
+
+            <button
+              type="submit"
+              id="btn-continuar-deseos"
+              class="btn btn-azul btn-continuar-wishlist"
+            >
+              Continuar a confirmación
+            </button>
+
+            <div class="barra-estado-deseos">
+              <span id="contador-deseos" class="nota-reservada" role="status">
+                0 de 3 deseos completados
+              </span>
+              <button
+                type="button"
+                id="btn-limpiar-deseos"
+                class="btn-enlace-limpiar"
+              >
+                Limpiar campos
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Tarjeta 4: puente a confirmación de deseos -->
+      <section id="vista-confirmacion-deseos" class="ventana-card oculto">
+        <header class="ventana-header">
+          <h1>Confirmar deseos de la Wishlist</h1>
+        </header>
+
+        <div class="contenido-confirmacion">
+          <p class="subtitulo-revision">
+            Deseos capturados listos para confirmar:
+          </p>
+
+          <div class="caja-resumen">
+            <div class="caja-listado listado-participantes">
+              <ol id="resumen-deseos-capturados"></ol>
+            </div>
           </div>
-          <div class="campo-grupo">
-            <label for="deseo-2">Deseo 2</label>
-            <input id="deseo-2" name="deseo2" type="text" required maxlength="300" aria-describedby="error-deseos" />
+
+          <p id="error-confirmar-deseos" class="texto-obligatorio" role="alert"></p>
+          <div class="acciones-footer">
+            <button type="button" id="btn-confirmar-deseos" class="btn btn-azul">Confirmar y guardar</button>
+            <button
+              type="button"
+              id="btn-regresar-captura-deseos"
+              class="btn btn-rojo"
+            >
+              Regresar a editar
+            </button>
           </div>
-          <div class="campo-grupo">
-            <label for="deseo-3">Deseo 3</label>
-            <input id="deseo-3" name="deseo3" type="text" required maxlength="300" aria-describedby="error-deseos" />
-          </div>
-          <p id="error-deseos" class="texto-obligatorio" role="alert"></p>
-          <div class="acciones-grupo">
-            <button type="button" id="btn-cancelar-deseos" class="btn btn-rojo">Volver al grupo</button>
-            <button type="submit" class="btn btn-azul">Guardar mis deseos</button>
-          </div>
-        </form>
+        </div>
       </section>
 
       <section id="vista-final" class="ventana-card oculto" aria-labelledby="titulo-final">

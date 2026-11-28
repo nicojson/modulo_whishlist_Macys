@@ -1,15 +1,16 @@
 // Integra el grupo confirmado, la captura de deseos y el resumen persistente.
 document.addEventListener("DOMContentLoaded", () => {
-  const vistas = ["vista-crear-grupo", "vista-confirmacion", "vista-inicio-grupo", "vista-deseos", "vista-final"];
+  const vistas = ["vista-crear-grupo", "vista-confirmacion", "vista-inicio-grupo", "vista-deseos", "vista-confirmacion-deseos", "vista-final"];
   const selector = document.getElementById("usuario-deseos");
   const campos = [1, 2, 3].map((numero) => document.getElementById(`deseo-${numero}`));
   const error = document.getElementById("error-almacenamiento");
   const errorDeseos = document.getElementById("error-deseos");
   let grupoActual = null;
+  let borrador = null;
 
   function mostrarVista(id) {
     vistas.forEach((vista) => document.getElementById(vista).classList.toggle("oculto", vista !== id));
-    const wishlistActiva = id === "vista-deseos" || id === "vista-final";
+    const wishlistActiva = id === "vista-deseos" || id === "vista-confirmacion-deseos" || id === "vista-final";
     document.getElementById("tab-grupo").classList.toggle("activa", !wishlistActiva);
     document.getElementById("tab-wishlist").classList.toggle("activa", wishlistActiva);
     document.getElementById("titulo-modulo-wishlist").classList.toggle("oculto", !wishlistActiva);
@@ -96,46 +97,96 @@ document.addEventListener("DOMContentLoaded", () => {
       campo.removeAttribute("aria-invalid");
       campo.classList.remove("input-error");
     });
-    errorDeseos.textContent = "";
+    limpiarErrores();
+    actualizarContador();
+    document.getElementById("contexto-deseos").classList.remove("oculto");
     document.getElementById("contexto-deseos").textContent = `${selector.value} · ${grupoActual.nombreGrupo}. Escribe tus tres deseos en orden de preferencia.`;
     mostrarVista("vista-deseos");
     campos[0].focus();
   });
 
-  document.getElementById("form-deseos").addEventListener("submit", async (evento) => {
+  document.getElementById("form-deseos").addEventListener("submit", (evento) => {
     evento.preventDefault();
     const deseos = campos.map((campo) => campo.value.trim());
     campos.forEach((campo, indice) => {
       const invalido = !deseos[indice] || deseos[indice].length > 300;
       campo.classList.toggle("input-error", invalido);
       campo.setAttribute("aria-invalid", String(invalido));
+      document.getElementById(`error-deseo-${indice + 1}`).textContent = invalido ? `El Deseo ${indice + 1} es obligatorio y admite hasta 300 caracteres.` : "";
     });
     const primerInvalido = campos.find((campo) => campo.getAttribute("aria-invalid") === "true");
     if (primerInvalido) {
+      errorDeseos.classList.remove("oculto");
       errorDeseos.textContent = "Completa los tres deseos con un máximo de 300 caracteres por deseo.";
       primerInvalido.focus();
       return;
     }
+    borrador = {
+      nombreGrupo: grupoActual.nombreGrupo,
+      participante: selector.value,
+      deseos,
+    };
+    const resumen = document.getElementById("resumen-deseos-capturados");
+    resumen.replaceChildren();
+    deseos.forEach((texto) => {
+      const item = document.createElement("li");
+      item.textContent = texto;
+      resumen.appendChild(item);
+    });
+    document.getElementById("error-confirmar-deseos").textContent = "";
+    mostrarVista("vista-confirmacion-deseos");
+  });
+
+  document.getElementById("btn-regresar-captura-deseos").addEventListener("click", () => mostrarVista("vista-deseos"));
+  document.getElementById("btn-confirmar-deseos").addEventListener("click", async () => {
+    if (!borrador) return;
     try {
-      localStorage.setItem("wishlistUsuario", JSON.stringify({
-        nombreGrupo: grupoActual.nombreGrupo,
-        participante: selector.value,
-        deseos,
-      }));
+      localStorage.setItem("wishlistUsuario", JSON.stringify(borrador));
     } catch {
-      errorDeseos.textContent = "No se pudieron guardar tus deseos. Revisa el almacenamiento del navegador e intenta de nuevo.";
+      document.getElementById("error-confirmar-deseos").textContent = "No se pudieron guardar tus deseos. Revisa el almacenamiento del navegador e intenta de nuevo.";
       return;
     }
     const grupoId = grupoActual.grupo_id;
-    const participante = grupoActual.participantesDB?.find((persona) => persona.nombre === selector.value);
-    errorDeseos.textContent = "";
+    const participante = grupoActual.participantesDB?.find((persona) => persona.nombre === borrador.participante);
+    const deseos = [...borrador.deseos];
     avisar("");
     mostrarFinal();
     await window.apiIntercambio.guardarWishlist(deseos, participante?.participante_id, grupoId);
   });
 
+  function actualizarContador() {
+    const completos = campos.filter((campo) => campo.value.trim()).length;
+    document.getElementById("contador-deseos").textContent = `${completos} de 3 deseos completados`;
+  }
+
+  function limpiarErrores() {
+    errorDeseos.textContent = "";
+    errorDeseos.classList.add("oculto");
+    campos.forEach((campo, indice) => {
+      campo.classList.remove("input-error");
+      campo.removeAttribute("aria-invalid");
+      document.getElementById(`error-deseo-${indice + 1}`).textContent = "";
+    });
+  }
+
+  campos.forEach((campo, indice) => campo.addEventListener("input", () => {
+    if (campo.value.trim()) {
+      campo.classList.remove("input-error");
+      campo.removeAttribute("aria-invalid");
+      document.getElementById(`error-deseo-${indice + 1}`).textContent = "";
+    }
+    errorDeseos.classList.add("oculto");
+    actualizarContador();
+  }));
+  document.getElementById("btn-limpiar-deseos").addEventListener("click", () => {
+    document.getElementById("form-deseos").reset();
+    borrador = null;
+    limpiarErrores();
+    actualizarContador();
+    campos[0].focus();
+  });
+
   document.getElementById("btn-volver-grupo").addEventListener("click", window.mostrarInicioGrupo);
-  document.getElementById("btn-cancelar-deseos").addEventListener("click", window.mostrarInicioGrupo);
   document.getElementById("btn-crear-otro-grupo").addEventListener("click", () => {
     grupoActual = null;
     document.getElementById("btn-cancelar").click();
