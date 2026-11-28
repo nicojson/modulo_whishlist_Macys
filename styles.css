@@ -1,3 +1,4 @@
+/* Estilos generales: aplica la misma fuente y forma de calcular tamaños. */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,6 +6,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Centra la tarjeta y limita su ancho para que se adapte a la pantalla. */
 body {
   background-color: #f4f6f9;
   display: flex;
@@ -19,6 +21,7 @@ body {
   max-width: 560px;
 }
 
+/* Apariencia compartida por las tarjetas de registro y confirmación. */
 .ventana-card {
   background-color: #ffffff;
   border: 2px solid #2c3e50;
@@ -62,6 +65,7 @@ form {
   gap: 8px;
 }
 
+/* Campos de texto y señales visuales al escribir o detectar un error. */
 .campo-grupo input {
   width: 100%;
   max-width: 340px;
@@ -92,6 +96,7 @@ form {
   color: #e11d48;
 }
 
+/* Distribución del registro, listado y acciones de cada participante. */
 .seccion-participantes {
   margin-bottom: 28px;
 }
@@ -157,6 +162,7 @@ form {
   gap: 14px;
 }
 
+/* Base de todos los botones; las clases de color indican cada acción. */
 .btn {
   padding: 9px 20px;
   font-size: 0.95rem;
@@ -202,6 +208,7 @@ form {
   font-size: 0.9rem;
 }
 
+/* JavaScript agrega o quita esta clase para ocultar o mostrar elementos. */
 .oculto {
   display: none;
 }
@@ -275,4 +282,27 @@ form {
 .alerta-exito p {
   margin-bottom: 10px;
   font-weight: 600;
+}
+
+.campo-grupo select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 1rem;
+  border: 1.5px solid #374151;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.ayuda-deseos { margin-bottom: 20px; color: #374151; overflow-wrap: anywhere; }
+.acciones-grupo { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.lista-deseos { padding-left: 32px; margin: 20px 0 24px; }
+.lista-deseos li { padding: 14px 12px; margin-bottom: 12px; background: #f4f6f9; border-radius: 10px; overflow-wrap: anywhere; white-space: pre-wrap; }
+#vista-final .alerta-exito { margin: 0 0 20px; }
+#grupo-final { overflow-wrap: anywhere; }
+
+@media (max-width: 420px) {
+  body { padding: 12px; }
+  .acciones-confirmacion { gap: 12px; flex-wrap: wrap; }
+  .btn-grande { min-width: 110px; }
+  .acciones-grupo .btn { width: 100%; }
 }

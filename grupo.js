@@ -4,6 +4,7 @@ window.appIntercambio = window.appIntercambio || {
   participantes: [],
 };
 
+// Espera a que exista el formulario antes de conectar sus controles.
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("form-crear-grupo");
   const inputNombre = document.getElementById("nombre-grupo");
@@ -74,12 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const nombreCapturado = inputNombre.value.trim();
     window.appIntercambio.nombreGrupo = nombreCapturado;
-    localStorage.setItem(
-      "datosGrupoIntercambio",
-      JSON.stringify(window.appIntercambio),
-    );
-
-    // Si el módulo de confirmación (AF, CL) ya está conectado, lo abre; si no, muestra evidencia de envío
     if (typeof window.mostrarConfirmacion === "function") {
       window.mostrarConfirmacion(window.appIntercambio);
     } else {
