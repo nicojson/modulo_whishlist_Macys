@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
       JSON.stringify(window.appIntercambio),
     );
 
-    // Si el módulo de confirmación (AF, CL) ya está conectado, lo abre; si no, muestra evidencia de envío
+    // Si la confirmación ya está conectada, la abre; si no, muestra el aviso de envío
     if (typeof window.mostrarConfirmacion === "function") {
       window.mostrarConfirmacion(window.appIntercambio);
     } else {
